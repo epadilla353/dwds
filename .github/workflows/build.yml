@@ -1,0 +1,20 @@
+name: Build SES EQ (Windows)
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S . -B build -A x64
+      - name: Build
+        run: cmake --build build --config Release --parallel
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: SES-EQ-Windows
+          path: |
+            build/SESEQ_artefacts/Release/VST3/SES EQ.vst3
+            build/SESEQ_artefacts/Release/Standalone/SES EQ.exe
